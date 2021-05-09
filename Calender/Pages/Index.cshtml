@@ -1,7 +1,11 @@
 ﻿@page
 @model IndexModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "Home page";
+    int MonthRowCount = 6;
+    int WeekCount = 7;
+    int count = 0;
 }
 
 <!DOCTYPE html>
@@ -13,10 +17,14 @@
 <body>
     <div id="container" class="text-left">
         <h1>@Model.Message</h1>
-        <form method="post">
+        <form asp-page-handler="prev" method="post">
+            <input type="hidden" asp-for="monthInfo.prevMonth" value=@Model.DispMonth>
             <button type="submit">前月</button>
         </form>
-        <button type="button">後月</button>
+        <form asp-page-handler="next" method="post">
+            <input type="hidden" asp-for="monthInfo.nextMonth" value=@Model.DispMonth>
+            <button type="submit">後月</button>
+        </form>
         <table border="1" align="center" width="50%" height="100%" class="text-center">
             <tr>
                 <th><font color="red">日</font></th>
@@ -25,62 +33,26 @@
                 <th>水</th>
                 <th>木</th>
                 <th>金</th>
-                <th>土</th>
+                <th><font color="blue">土</font></th>
             </tr>
-            <tr>
-                <td>@Model.Month[0]</td>
-                <td>@Model.Month[1]</td>
-                <td>@Model.Month[2]</td>
-                <td>@Model.Month[3]</td>
-                <td>@Model.Month[4]</td>
-                <td>@Model.Month[5]</td>
-                <td>@Model.Month[6]</td>
-            </tr>
-            <tr>
-                <td>@Model.Month[7]</td>
-                <td>@Model.Month[8]</td>
-                <td>@Model.Month[9]</td>
-                <td>@Model.Month[10]</td>
-                <td>@Model.Month[11]</td>
-                <td>@Model.Month[12]</td>
-                <td>@Model.Month[13]</td>
-            </tr>
-            <tr>
-                <td>@Model.Month[14]</td>
-                <td>@Model.Month[15]</td>
-                <td>@Model.Month[16]</td>
-                <td>@Model.Month[17]</td>
-                <td>@Model.Month[18]</td>
-                <td>@Model.Month[19]</td>
-                <td>@Model.Month[20]</td>
-            </tr>
-            <tr>
-                <td>@Model.Month[21]</td>
-                <td>@Model.Month[22]</td>
-                <td>@Model.Month[23]</td>
-                <td>@Model.Month[24]</td>
-                <td>@Model.Month[25]</td>
-                <td>@Model.Month[26]</td>
-                <td>@Model.Month[27]</td>
-            </tr>
-            <tr>
-                <td>@Model.Month[28]</td>
-                <td>@Model.Month[29]</td>
-                <td>@Model.Month[30]</td>
-                <td>@Model.Month[31]</td>
-                <td>@Model.Month[32]</td>
-                <td>@Model.Month[33]</td>
-                <td>@Model.Month[34]</td>
-            </tr>
-            <tr>
-                <td>@Model.Month[35]</td>
-                <td>@Model.Month[36]</td>
-                <td>@Model.Month[37]</td>
-                <td>@Model.Month[38]</td>
-                <td>@Model.Month[39]</td>
-                <td>@Model.Month[40]</td>
-                <td>@Model.Month[41]</td>
-            </tr>
+            @for (int i = 0; i < MonthRowCount; i++)
+            {
+                <tr>
+                @for (int j = 0; j < WeekCount; j++)
+                {
+                    
+                        <td>
+                            <form asp-page-handler="tasks" method="post">
+                                <input type="hidden" asp-for="monthInfo.thisMonth" value=@Model.DispMonth>
+                                <input type="hidden" asp-for="monthInfo.thisDay" value=@Model.Month[count]>
+                                <button style="background-color:white;" type="submit">@Model.Month[count]</button>
+                            </form>
+                        </td>
+                    
+                    count++;
+                }
+                </tr>
+            }
         </table>
     </div>
 </body>
