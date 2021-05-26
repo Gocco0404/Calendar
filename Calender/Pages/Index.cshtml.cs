@@ -24,7 +24,7 @@ namespace Calender.Pages
         public DateTime ThisMonth { get; set; }
         public DateTime DispMonth { get; set; }
         public int[] Month { get; set;}
-        public int MonthCount = 42;
+        private int MonthCount = 42;
 
         [BindProperty]
         public MonthInfo monthInfo { get; set; }
@@ -35,88 +35,28 @@ namespace Calender.Pages
             int MonthLastDay = DateTime.DaysInMonth(DispMonth.Year, DispMonth.Month);
             Message = DispMonth.Year + "年" + DispMonth.Month  +"月";
             DayStart = new DateTime(DispMonth.Year, DispMonth.Month, 1);
-            int Difference = -1;
             Month = new int[MonthCount];
-            for (int i = 0;i < MonthCount;i++)
-            {
-                if(i < (int)DayStart.DayOfWeek)
-                {
-                    Month[i] = 0;
-                    Difference++;
-                }
-                else if(i - Difference <= MonthLastDay)
-                {
-                    Month[i] = i - Difference;
-                }
-                else
-                {
-                    Month[i] = 0;
-                }
-            }
+            Month = SetCalenderValue(DayStart);
         }
 
         public void OnGetPrevMonth(string prevMonth)
         {
-            ThisMonth = DateTime.Parse(prevMonth);
-            if(ThisMonth.Month == 1)
-            {
-                DispMonth = new DateTime(ThisMonth.Year - 1, 12, 1);
-            }else
-            {
-                DispMonth = new DateTime(ThisMonth.Year, ThisMonth.Month - 1, 1);
-            }
+            ThisMonth = DateTime.Parse(prevMonth).AddMonths(-1);
+            DispMonth = new DateTime(ThisMonth.Year, ThisMonth.Month, 1);
             int MonthLastDay = DateTime.DaysInMonth(DispMonth.Year, DispMonth.Month);
             Message = DispMonth.Year + "年" + DispMonth.Month + "月";
-            int Difference = -1;
             Month = new int[MonthCount];
-            for (int i = 0; i < MonthCount; i++)
-            {
-                if (i < (int)DispMonth.DayOfWeek)
-                {
-                    Month[i] = 0;
-                    Difference++;
-                }
-                else if (i - Difference <= MonthLastDay)
-                {
-                    Month[i] = i - Difference;
-                }
-                else
-                {
-                    Month[i] = 0;
-                }
-            }
+            Month = SetCalenderValue(DispMonth);
         }
+
+
         public void OnGetNextMonth(string nextMonth)
         {
-            ThisMonth = DateTime.Parse(nextMonth);
-            if (ThisMonth.Month == 12)
-            {
-                DispMonth = new DateTime(ThisMonth.Year + 1, 1, 1);
-            }
-            else
-            {
-                DispMonth = new DateTime(ThisMonth.Year, ThisMonth.Month + 1, 1);
-            }
+            ThisMonth = DateTime.Parse(nextMonth).AddMonths(1);
+            DispMonth = new DateTime(ThisMonth.Year,ThisMonth.Month,1);
             int MonthLastDay = DateTime.DaysInMonth(DispMonth.Year, DispMonth.Month);
             Message = DispMonth.Year + "年" + DispMonth.Month + "月";
-            int Difference = -1;
-            Month = new int[MonthCount];
-            for (int i = 0; i < MonthCount; i++)
-            {
-                if (i < (int)DispMonth.DayOfWeek)
-                {
-                    Month[i] = 0;
-                    Difference++;
-                }
-                else if (i - Difference <= MonthLastDay)
-                {
-                    Month[i] = i - Difference;
-                }
-                else
-                {
-                    Month[i] = 0;
-                }
-            }
+            Month = SetCalenderValue(DispMonth);
         }
 
         public IActionResult OnPostPrev()
@@ -130,6 +70,32 @@ namespace Calender.Pages
         public IActionResult OnPostTasks()
         {
             return RedirectToPage("/Tasks", new { thisMonth = monthInfo.thisMonth, thisDay = monthInfo.thisDay });
+        }
+
+
+        private int[] SetCalenderValue(DateTime dispMonth)
+        {
+            int Difference = -1;
+            Month = new int[MonthCount];
+            int MonthLastDay = DateTime.DaysInMonth(dispMonth.Year, dispMonth.Month);
+
+            for (int i = 0; i < MonthCount; i++)
+            {
+                if (i < (int)dispMonth.DayOfWeek)
+                {
+                    Month[i] = 0;
+                    Difference++;
+                }
+                else if (i - Difference <= MonthLastDay)
+                {
+                    Month[i] = i - Difference;
+                }
+                else
+                {
+                    Month[i] = 0;
+                }
+            }
+            return Month;
         }
     }
 }

@@ -3,9 +3,9 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "Home page";
-    int MonthRowCount = 6;
-    int WeekCount = 7;
-    int count = 0;
+    const int MONTHROWCOUNT = 6;
+    const int WEEKCOUNT = 7;
+    int Count = 0;
 }
 
 <!DOCTYPE html>
@@ -35,22 +35,27 @@
                 <th>金</th>
                 <th><font color="blue">土</font></th>
             </tr>
-            @for (int i = 0; i < MonthRowCount; i++)
+            @for (int i = 0; i < MONTHROWCOUNT; i++)
             {
-                <tr>
-                @for (int j = 0; j < WeekCount; j++)
+        <tr>
+            @for (int j = 0; j < WEEKCOUNT; j++)
+            {
+                @if (Model.Month[Count] != 0)
                 {
-                    
-                        <td>
-                            <form asp-page-handler="tasks" method="post">
-                                <input type="hidden" asp-for="monthInfo.thisMonth" value=@Model.DispMonth>
-                                <input type="hidden" asp-for="monthInfo.thisDay" value=@Model.Month[count]>
-                                <button style="background-color:white;" type="submit">@Model.Month[count]</button>
-                            </form>
-                        </td>
-                    
-                    count++;
-                }
+                    <td>
+                        <form asp-page-handler="tasks" method="post">
+                            <input type="hidden" asp-for="monthInfo.thisMonth" value=@Model.DispMonth>
+                            <input type="hidden" asp-for="monthInfo.thisDay" value=@Model.Month[Count]>
+                            <button style="background-color:white;" type="submit">@Model.Month[Count]</button>
+                        </form>
+                    </td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                Count++;
+            }
                 </tr>
             }
         </table>

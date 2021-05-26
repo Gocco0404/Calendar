@@ -9,10 +9,10 @@ namespace Calender.Pages
 {
     public class TasksModel : PageModel
     {
-        public void OnGet(string thisMonth, string thisDay)
+        public DateTime DateValue { get; set; }
+        public void OnGet(DateTime thisMonth, string thisDay)
         {
-            string tmp = thisMonth;
-            string tmp2 = thisDay;
+            DateValue = new DateTime(thisMonth.Year, thisMonth.Month, Int32.Parse(thisDay));
         }
     }
 }
