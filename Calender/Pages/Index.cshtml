@@ -37,26 +37,26 @@
             </tr>
             @for (int i = 0; i < MONTHROWCOUNT; i++)
             {
-        <tr>
-            @for (int j = 0; j < WEEKCOUNT; j++)
+            <tr>
+                @for (int j = 0; j < WEEKCOUNT; j++)
             {
                 @if (Model.Month[Count] != 0)
                 {
-                    <td>
-                        <form asp-page-handler="tasks" method="post">
-                            <input type="hidden" asp-for="monthInfo.thisMonth" value=@Model.DispMonth>
-                            <input type="hidden" asp-for="monthInfo.thisDay" value=@Model.Month[Count]>
-                            <button style="background-color:white;" type="submit">@Model.Month[Count]</button>
-                        </form>
-                    </td>
+                <td>
+                    <form asp-page-handler="tasks" method="post">
+                        <input type="hidden" asp-for="monthInfo.thisMonth" value=@Model.DispMonth>
+                        <input type="hidden" asp-for="monthInfo.thisDay" value=@Model.Month[Count]>
+                        <button style="background-color:white;" type="submit">@Model.Month[Count]</button>
+                    </form>
+                </td>
                     }
                     else
                     {
-                        <td></td>
+                <td></td>
                     }
                 Count++;
             }
-                </tr>
+            </tr>
             }
         </table>
     </div>

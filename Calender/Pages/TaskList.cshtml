@@ -1,0 +1,54 @@
+@page
+@model Calender.Pages.TaskListModel
+
+@{
+    ViewData["Title"] = "TaskList";
+}
+
+    <h1>TaskList</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskInfo[0].taskName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskInfo[0].taskContents)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskInfo[0].taskDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskInfo[0].updateDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.TaskInfo) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.taskName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.taskContents)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.taskDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.updateDate)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -23,7 +23,7 @@ namespace Calender.Pages
         public DateTime DayStart { get; set; }
         public DateTime ThisMonth { get; set; }
         public DateTime DispMonth { get; set; }
-        public int[] Month { get; set;}
+        public int[] Month { get; set; }
         private int MonthCount = 42;
 
         [BindProperty]
@@ -33,7 +33,7 @@ namespace Calender.Pages
         {
             DispMonth = System.DateTime.Now;
             int MonthLastDay = DateTime.DaysInMonth(DispMonth.Year, DispMonth.Month);
-            Message = DispMonth.Year + "年" + DispMonth.Month  +"月";
+            Message = DispMonth.Year + "年" + DispMonth.Month + "月";
             DayStart = new DateTime(DispMonth.Year, DispMonth.Month, 1);
             Month = new int[MonthCount];
             Month = SetCalenderValue(DayStart);
@@ -53,7 +53,7 @@ namespace Calender.Pages
         public void OnGetNextMonth(string nextMonth)
         {
             ThisMonth = DateTime.Parse(nextMonth).AddMonths(1);
-            DispMonth = new DateTime(ThisMonth.Year,ThisMonth.Month,1);
+            DispMonth = new DateTime(ThisMonth.Year, ThisMonth.Month, 1);
             int MonthLastDay = DateTime.DaysInMonth(DispMonth.Year, DispMonth.Month);
             Message = DispMonth.Year + "年" + DispMonth.Month + "月";
             Month = SetCalenderValue(DispMonth);
@@ -61,7 +61,7 @@ namespace Calender.Pages
 
         public IActionResult OnPostPrev()
         {
-            return RedirectToPage("/Index","prevmonth",new { prevMonth = monthInfo.prevMonth});
+            return RedirectToPage("/Index", "prevmonth", new { prevMonth = monthInfo.prevMonth });
         }
         public IActionResult OnPostNext()
         {
@@ -69,7 +69,7 @@ namespace Calender.Pages
         }
         public IActionResult OnPostTasks()
         {
-            return RedirectToPage("/Tasks", new { thisMonth = monthInfo.thisMonth, thisDay = monthInfo.thisDay });
+            return RedirectToPage("/TaskList", new { thisMonth = monthInfo.thisMonth, thisDay = monthInfo.thisDay });
         }
 
 
